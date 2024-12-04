@@ -1,0 +1,34 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.ehcache.org/v3"
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
+
+    <cache alias="default">
+        <key-type>java.lang.String</key-type>
+        <value-type>java.lang.Object</value-type>
+        <expiry>
+            <ttl unit="seconds">60</ttl>
+        </expiry>
+        <heap unit="entries">100</heap>
+    </cache>
+
+    <cache alias="hibernate.common.cache">
+        <expiry>
+            <ttl unit="seconds">300</ttl> <!-- Time-to-live -->
+        </expiry>
+        <heap unit="entries">100</heap> <!-- Maximum entries in memory -->
+    </cache>
+
+    <cache alias="hibernate.entity">
+        <expiry>
+            <ttl unit="seconds">300</ttl>
+        </expiry>
+        <heap unit="entries">100</heap>
+    </cache>
+
+    <cache alias="server-test">
+        <expiry>
+            <ttl unit="seconds">300</ttl>
+        </expiry>
+        <heap unit="entries">100</heap>
+    </cache>
+</config>
