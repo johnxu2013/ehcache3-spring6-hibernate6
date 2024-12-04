@@ -1,0 +1,1 @@
+# ehcache3-spring6-hibernate6
