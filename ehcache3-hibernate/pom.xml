@@ -28,7 +28,7 @@
     </scm>
     <properties>
         <java.version>17</java.version>
-        <hibernate.version>6.6.3.Final</hibernate.version>
+        <hibernate.version>6.6.2.Final</hibernate.version>
         <ehcache.version>3.10.8</ehcache.version>
     </properties>
     <dependencies>
@@ -45,81 +45,17 @@
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
-            <!-- Latest JAXB API -->
-<!--            <dependency>-->
-<!--                <groupId>jakarta.xml.bind</groupId>-->
-<!--                <artifactId>jakarta.xml.bind-api</artifactId>-->
-<!--                <version>3.0.1</version>-->
-<!--            </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>com.sun.xml.bind</groupId>-->
-<!--            <artifactId>jaxb-core</artifactId>-->
-<!--            <version>3.0.1</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>com.sun.xml.bind</groupId>-->
-<!--            <artifactId>jaxb-impl</artifactId>-->
-<!--            <version>3.0.1</version>-->
-<!--        </dependency>-->
-
-
-<!--        &lt;!&ndash; JAXB RI, Jakarta XML Binding &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.sun.xml.bind</groupId>-->
-<!--            <artifactId>jaxb-impl</artifactId>-->
-<!--            <version>3.0.1</version>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
-
+        <!-- Jakarta 4.x.x -->
         <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
-            <version>2.3.1</version>
+            <version>4.0.0</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.javassist</groupId>-->
-<!--            <artifactId>javassist</artifactId>-->
-<!--            <version>3.25.0-GA</version>-->
-<!--        </dependency>-->
-
-<!--            &lt;!&ndash; Latest JAXB Runtime &ndash;&gt;-->
-<!--            <dependency>-->
-<!--                <groupId>org.glassfish.jaxb</groupId>-->
-<!--                <artifactId>jaxb-runtime</artifactId>-->
-<!--                <version>3.0.1</version>-->
-<!--            </dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
-<!--        <dependency>-->
-<!--            <groupId>javax.xml.bind</groupId>-->
-<!--            <artifactId>jaxb-api</artifactId>-->
-<!--            <version>2.3.1</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>jakarta.xml.bind</groupId>-->
-<!--            <artifactId>jakarta.xml.bind-api</artifactId>-->
-<!--            <version>2.3.3</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>com.sun.xml.bind</groupId>-->
-<!--            <artifactId>jaxb-ri</artifactId>-->
-<!--            <version>2.3.3</version>-->
-<!--        </dependency>-->
-
 
         <!-- Hibernate Core -->
         <dependency>
@@ -143,29 +79,20 @@
         <dependency>
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
+            <classifier>jakarta</classifier>
             <version>${ehcache.version}</version>
         </dependency>
-
-        <!-- JCache API -->
-        <dependency>
-            <groupId>javax.cache</groupId>
-            <artifactId>cache-api</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <version>8.2.0</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -179,6 +106,55 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/META-INF</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/local</directory>
+                                    <includes>
+                                        <include>**/*.wsdl</include>
+                                        <include>**/*.xsd</include>
+                                        <include>**/*.props</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-test</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/test-classes/org/hx/services/vlp/META-INF</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/local</directory>
+                                    <includes>
+                                        <include>**/*.wsdl</include>
+                                        <include>**/*.xsd</include>
+                                        <include>**/*.props</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

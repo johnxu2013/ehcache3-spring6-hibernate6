@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.ehcache.org/v3"
-        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.10.xsd">
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
 
     <cache alias="default">
         <key-type>java.lang.String</key-type>
@@ -16,10 +15,6 @@
         <expiry>
             <ttl unit="seconds">300</ttl> <!-- Time-to-live -->
         </expiry>
-        <heap unit="entries">100</heap> <!-- Maximum entries in memory -->
-    </cache>
-
-    <cache alias="test">
         <heap unit="entries">100</heap> <!-- Maximum entries in memory -->
     </cache>
 
